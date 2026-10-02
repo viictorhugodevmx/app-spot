@@ -1,18 +1,50 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { Stack } from 'expo-router';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { FavoritesProvider } from '../context/FavoritesContext';
 
-SplashScreen.preventAutoHideAsync();
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function RootLayout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <FavoritesProvider>
+      <Stack
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#0D1117',
+          },
+          headerTintColor: '#FFFFFF',
+          headerShadowVisible: false,
+          contentStyle: {
+            backgroundColor: '#0D1117',
+          },
+        }}
+      >
+        <Stack.Screen
+          name="index"
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="places/index"
+          options={{
+            title: 'Places',
+          }}
+        />
+
+        <Stack.Screen
+          name="places/[id]"
+          options={{
+            title: 'Place',
+          }}
+        />
+
+        <Stack.Screen
+          name="favorites"
+          options={{
+            title: 'Favorites',
+          }}
+        />
+      </Stack>
+    </FavoritesProvider>
   );
 }

@@ -1,56 +1,121 @@
-# Welcome to your Expo app 👋
+# 📍 Spot
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Spot is a React Native places wishlist built with Expo and Expo Router.
 
-## Get started
+The app focuses on mobile navigation patterns, dynamic routes and shared state across multiple screens.
 
-1. Install dependencies
+## ✨ Features
 
-   ```bash
-   npm install
-   ```
+- Places wishlist
+- File-based navigation with Expo Router
+- Dynamic place routes
+- Dynamic navigation headers
+- Route and search parameters
+- Favorites shared across screens
+- Favorites collection
+- Empty states
+- Reusable place cards
+- Derived UI state
 
-2. Start the app
+## 🧭 Navigation
 
-   ```bash
-   npx expo start
-   ```
+Spot uses file-based routing with Expo Router.
 
-In the output, you'll find options to open the app in a
+    /
+    ├── /places
+    │   └── /places/[id]
+    └── /favorites
+        └── /places/[id]
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Each place detail screen is generated from the same dynamic route:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+`/places/[id]`
 
-## Get a fresh project
+For example:
 
-When you're ready, run:
+- `/places/hidden-beach`
+- `/places/mountain-cabin`
+- `/places/old-town`
 
-```bash
-npm run reset-project
-```
+Additional route parameters are used to identify whether a place was opened from the main list or the favorites screen.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 🧠 Shared State
 
-### Other setup steps
+Favorites are managed with React Context.
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+The same state is consumed by:
 
-## Learn more
+- Home
+- Places
+- Favorites
+- Place Details
 
-To learn more about developing your project with Expo, look at the following resources:
+This keeps favorite status synchronized across the navigation stack without passing state manually through every screen.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 📱 Screenshots
 
-## Join the community
+### Home
 
-Join our community of developers creating universal apps.
+<p align="center">
+  <img src="./docs/screenshots/home.png" width="320" alt="Spot home screen" />
+</p>
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Places
+
+<p align="center">
+  <img src="./docs/screenshots/places.png" width="320" alt="Spot places screen" />
+</p>
+
+### Favorites
+
+<p align="center">
+  <img src="./docs/screenshots/favorites.png" width="320" alt="Spot favorites screen" />
+</p>
+
+### Place Details
+
+<p align="center">
+  <img src="./docs/screenshots/details.png" width="320" alt="Spot place details screen" />
+</p>
+
+## 🛠️ Tech Stack
+
+- React Native
+- Expo
+- Expo Router
+- React
+- TypeScript
+
+## 📚 What I Practiced
+
+This project was built as part of a React Native learning lab.
+
+The main goal was to practice:
+
+- file-based mobile navigation
+- Stack navigation
+- dynamic routes
+- typed route parameters
+- local search parameters
+- dynamic screen options
+- shared state with React Context
+- derived collections
+- reusable React Native components
+
+## 🚀 Run Locally
+
+Install dependencies:
+
+    npm install
+
+Start Expo:
+
+    npx expo start
+
+Then open the project with Expo Go on Android or another supported Expo environment.
+
+## 👨‍💻 Author
+
+Víctor Hugo Segundo Aguilar
+
+Frontend Developer focused on React, Angular, JavaScript and TypeScript, expanding into React Native and mobile development.

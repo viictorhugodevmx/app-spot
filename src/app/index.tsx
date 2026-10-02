@@ -1,98 +1,194 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import { useFavorites } from '../context/FavoritesContext';
+import { PLACES } from '../data/places';
 
 export default function HomeScreen() {
+  const { favoriteIds } = useFavorites();
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <View style={styles.screen}>
+      <Text style={styles.eyebrow}>
+        PLACES WISHLIST
+      </Text>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+      <Text style={styles.title}>
+        Spot
+      </Text>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+      <Text style={styles.subtitle}>
+        Save the places you want to experience.
+      </Text>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+      <View style={styles.heroCard}>
+        <Text style={styles.heroEmoji}>
+          📍
+        </Text>
+
+        <Text style={styles.heroTitle}>
+          Your next favorite place starts here.
+        </Text>
+
+        <Text style={styles.heroText}>
+          Explore your wishlist, open place details and keep your favorite spots together.
+        </Text>
+      </View>
+
+      <View style={styles.statsRow}>
+        <View style={styles.statCard}>
+          <Text style={styles.statLabel}>
+            SAVED SPOTS
+          </Text>
+
+          <Text style={styles.statValue}>
+            {PLACES.length}
+          </Text>
+        </View>
+
+        <View style={styles.statCard}>
+          <Text style={styles.statLabel}>
+            FAVORITES
+          </Text>
+
+          <Text style={styles.statValue}>
+            {favoriteIds.length}
+          </Text>
+        </View>
+      </View>
+
+      <Pressable
+        onPress={() => router.push('/places')}
+        style={({ pressed }) => [
+          styles.primaryButton,
+          pressed && styles.buttonPressed,
+        ]}
+      >
+        <Text style={styles.primaryButtonText}>
+          Explore Places
+        </Text>
+      </Pressable>
+
+      <Pressable
+        onPress={() => router.push('/favorites')}
+        style={({ pressed }) => [
+          styles.secondaryButton,
+          pressed && styles.buttonPressed,
+        ]}
+      >
+        <Text style={styles.secondaryButtonText}>
+          ♥ View Favorites
+        </Text>
+      </Pressable>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
     justifyContent: 'center',
-    flexDirection: 'row',
+    paddingHorizontal: 24,
+    backgroundColor: '#0D1117',
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+  eyebrow: {
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 1.8,
+    color: '#FF9F66',
   },
   title: {
-    textAlign: 'center',
+    marginTop: 8,
+    fontSize: 46,
+    fontWeight: '800',
+    color: '#FFFFFF',
   },
-  code: {
-    textTransform: 'uppercase',
+  subtitle: {
+    marginTop: 8,
+    maxWidth: 300,
+    fontSize: 16,
+    lineHeight: 23,
+    color: '#98A2AF',
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  heroCard: {
+    marginTop: 30,
+    padding: 22,
+    borderWidth: 1,
+    borderColor: '#2A313B',
+    borderRadius: 24,
+    backgroundColor: '#171C23',
+  },
+  heroEmoji: {
+    fontSize: 36,
+  },
+  heroTitle: {
+    marginTop: 16,
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#FFFFFF',
+  },
+  heroText: {
+    marginTop: 8,
+    fontSize: 14,
+    lineHeight: 21,
+    color: '#8F99A6',
+  },
+  statsRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 16,
+  },
+  statCard: {
+    flex: 1,
+    padding: 18,
+    borderRadius: 18,
+    backgroundColor: '#FF9F66',
+  },
+  statLabel: {
+    fontSize: 9,
+    fontWeight: '800',
+    letterSpacing: 1.2,
+    color: '#5B2B12',
+  },
+  statValue: {
+    marginTop: 6,
+    fontSize: 26,
+    fontWeight: '800',
+    color: '#32180B',
+  },
+  primaryButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 54,
+    marginTop: 18,
+    borderRadius: 16,
+    backgroundColor: '#FF9F66',
+  },
+  secondaryButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 54,
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: '#FF9F66',
+    borderRadius: 16,
+  },
+  buttonPressed: {
+    opacity: 0.75,
+  },
+  primaryButtonText: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#32180B',
+  },
+  secondaryButtonText: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#FF9F66',
   },
 });
